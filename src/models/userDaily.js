@@ -8,29 +8,37 @@ module.exports = (sequelize, DataTypes) => {
       kcalLeft: {
         type: DataTypes.STRING,
         allowNull: false,
-        validator: {
+        validate: {
           notEmpty: true,
         },
-        carbLeft: {
-          type: DataTypes.DATE,
-        },
-        fatLeft: {
-          type: DataTypes.DATE,
-        },
-        fatLeft: {
-          type: DataTypes.DATE,
-        },
-        proteinLeft: {
-          type: DataTypes.DATE,
-        },
-        Date: {
-          type: DataTypes.DATE,
-        },
+      },
+      carbLeft: {
+        type: DataTypes.DATE,
+      },
+      fatLeft: {
+        type: DataTypes.DATE,
+      },
+      proteinLeft: {
+        type: DataTypes.DATE,
+      },
+      Date: {
+        type: DataTypes.DATE,
       },
     },
     {
       underscored: true,
     }
   );
+
+  UserDaily.associate = (db) => {
+    UserDaily.belongsTo(db.ProfileUser, {
+      foreignKey: {
+        name: "profileUserId",
+        allowNull: false,
+      },
+      onDelete: "RESTRICT",
+    });
+  };
+
   return UserDaily;
 };

@@ -2,8 +2,8 @@
 // const { sequelize } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  const UserId = sequelize.define(
-    "UserId",
+  const User = sequelize.define(
+    "User",
     {
       email: {
         type: DataTypes.STRING,
@@ -20,5 +20,15 @@ module.exports = (sequelize, DataTypes) => {
     { underscored: true }
   );
 
-  return UserId;
+  User.associate = (db) => {
+    User.hasOne(db.ProfileUser, {
+      foreignKey: {
+        name: "userId",
+        allowNull: false,
+      },
+      onDelete: "RESTRICT",
+    });
+  };
+
+  return User;
 };

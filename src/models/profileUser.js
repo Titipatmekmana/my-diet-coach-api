@@ -2,8 +2,8 @@
 // const { Sequelize } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  const ProfileUserId = sequelize.define(
-    "ProfileUserId",
+  const ProfileUser = sequelize.define(
+    "ProfileUser",
     {
       loseWeight: {
         type: DataTypes.STRING,
@@ -49,9 +49,31 @@ module.exports = (sequelize, DataTypes) => {
       underscored: true,
     }
   );
-  //  User.asscocite = db => {
-  //   User.hasMany(db.)
-  //  }
+  ProfileUser.associate = (db) => {
+    ProfileUser.belongsTo(db.User, {
+      foreignKey: {
+        name: "userId",
+        allowNull: false,
+      },
+      onDelete: "RESTRICT",
+    });
 
-  return ProfileUserId;
+    ProfileUser.hasMany(db.UserDaily, {
+      foreignKey: {
+        name: "userDailyId",
+        allowNull: false,
+      },
+      onDelete: "RESTRICT",
+    });
+
+    ProfileUser.hasMany(db.UserFood, {
+      foreignKey: {
+        name: "profileUserId",
+        allowNull: false,
+      },
+      onDelete: "RESTRICT",
+    });
+  };
+
+  return ProfileUser;
 };

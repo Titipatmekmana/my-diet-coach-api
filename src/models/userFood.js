@@ -2,31 +2,25 @@
 // const { sequelize } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  const Food = sequelize.define(
-    "Food",
+  const UserFood = sequelize.define(
+    "UserFood",
     {
-      name: {
+      serving: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
           notEmpty: true,
         },
       },
-      Group: {
+      dailyMeal: {
         type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
       },
-      calories: {
-        type: DataTypes.STRING,
-        unique: true,
-      },
-      carbs: {
-        type: DataTypes.STRING,
-      },
-      fat: {
-        type: DataTypes.STRING,
-      },
-      protein: {
-        type: DataTypes.STRING,
+      data: {
+        type: DataTypes.DATE,
       },
     },
     {
@@ -34,8 +28,16 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Food.associate = (db) => {
-    Food.hasMany(db.UserFood, {
+  UserFood.associate = (db) => {
+    UserFood.belongsTo(db.ProfileUser, {
+      foreignKey: {
+        name: "profileUserId",
+        allowNull: false,
+      },
+      onDelete: "RESTRICT",
+    });
+
+    UserFood.belongsTo(db.Food, {
       foreignKey: {
         name: "foodId",
         allowNull: false,
@@ -44,5 +46,5 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  return Food;
+  return UserFood;
 };

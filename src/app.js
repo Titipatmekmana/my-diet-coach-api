@@ -23,6 +23,12 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
+// app.use('/login',rateLimit({
+//     windowMs: 1000 * 60 * 15,
+//     max: 100,
+//     message: { message: "too many requests,please try again later" },
+// }))
+
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
 

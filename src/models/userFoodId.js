@@ -2,30 +2,24 @@
 // const { sequelize } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  const Food = sequelize.define(
-    "Food",
+  const UserFoodId = sequelize.define(
+    "UserFoodId",
     {
-      name: {
+      serving: {
         type: DataTypes.STRING,
         allowNull: false,
         validator: {
           notEmpty: true,
         },
-        Group: {
+        dailyMeal: {
           type: DataTypes.STRING,
+          allowNull: false,
+          validator: {
+            notEmpty: true,
+          },
         },
-        calories: {
-          type: DataTypes.STRING,
-          unique: true,
-        },
-        carbs: {
-          type: DataTypes.STRING,
-        },
-        fat: {
-          type: DataTypes.STRING,
-        },
-        protein: {
-          type: DataTypes.STRING,
+        data: {
+          type: DataTypes.DATE,
         },
       },
     },
@@ -33,5 +27,5 @@ module.exports = (sequelize, DataTypes) => {
       underscored: true,
     }
   );
-  return Food;
+  return UserFoodId;
 };

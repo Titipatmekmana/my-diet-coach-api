@@ -2,8 +2,8 @@
 // const { sequelize } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  const Food = sequelize.define(
-    "Food",
+  const AdminId = sequelize.define(
+    "AdminId",
     {
       name: {
         type: DataTypes.STRING,
@@ -11,21 +11,15 @@ module.exports = (sequelize, DataTypes) => {
         validator: {
           notEmpty: true,
         },
-        Group: {
+        age: {
           type: DataTypes.STRING,
         },
-        calories: {
+        gender: {
+          type: DataTypes.ENUM("MALE", "FEMALE"),
+        },
+        updateFood: {
           type: DataTypes.STRING,
           unique: true,
-        },
-        carbs: {
-          type: DataTypes.STRING,
-        },
-        fat: {
-          type: DataTypes.STRING,
-        },
-        protein: {
-          type: DataTypes.STRING,
         },
       },
     },
@@ -33,5 +27,5 @@ module.exports = (sequelize, DataTypes) => {
       underscored: true,
     }
   );
-  return Food;
+  return AdminId;
 };

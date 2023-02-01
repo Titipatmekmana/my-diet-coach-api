@@ -8,21 +8,22 @@ module.exports = (sequelize, DataTypes) => {
       kcalLeft: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-          notEmpty: true,
-        },
       },
       carbLeft: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
+        allowNull: false,
       },
       fatLeft: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
+        allowNull: false,
       },
       proteinLeft: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
+        allowNull: false,
       },
-      Date: {
-        type: DataTypes.DATE,
+      date: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
     },
     {

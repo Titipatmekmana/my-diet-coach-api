@@ -16,6 +16,37 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      user_gender: {
+        type: DataTypes.ENUM("MALE", "FEMALE"),
+      },
+      user_Bdate: {
+        type: DataTypes.DATEONLY,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "A birthday is required",
+          },
+        },
+      },
+      user_firstname: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
+      },
+      user_lastname: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
+      },
+      role: {
+        type: DataTypes.ENUM("user", "admin"),
+      },
+      profileImage: DataTypes.STRING,
+      coverImage: DataTypes.STRING,
     },
     { underscored: true }
   );

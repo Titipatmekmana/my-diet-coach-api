@@ -7,10 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       serving: {
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: true,
-        },
+        unique: true,
       },
       dailyMeal: {
         type: DataTypes.STRING,
@@ -19,8 +16,9 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: true,
         },
       },
-      data: {
-        type: DataTypes.DATE,
+      date: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
     },
     {

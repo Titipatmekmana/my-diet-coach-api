@@ -14,19 +14,23 @@ module.exports = (sequelize, DataTypes) => {
       },
       Group: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
       calories: {
         type: DataTypes.STRING,
-        unique: true,
+        allowNull: false,
       },
       carbs: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
       fat: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
       protein: {
         type: DataTypes.STRING,
+        allowNull: false,
       },
     },
     {

@@ -29,6 +29,7 @@ const reqisterSchema = Joi.object({
       "any.only": "password and confirm password did not match",
       "string.empty": "confirm password is required",
     }),
+  admin: Joi.string().required(),
 });
 
 exports.validateRegister = validate(reqisterSchema);

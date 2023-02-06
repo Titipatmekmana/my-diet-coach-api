@@ -28,12 +28,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       user_Bdate: {
         type: DataTypes.DATEONLY,
-        allowNull: false,
-        validate: {
-          notNull: {
-            msg: "A birthday is required",
-          },
-        },
+        // validate: {
+        //   notNull: {
+        //     msg: "A birthday is required",
+        //   },
+        // },
       },
       user_firstname: {
         type: DataTypes.STRING,

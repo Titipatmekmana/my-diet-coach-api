@@ -41,8 +41,15 @@ const reqisterSchema = Joi.object({
     is: Joi.string().pattern(/^[0-9]{10}$/),
     then: Joi.string().default(Joi.ref("emailOrMobile")),
   }),
-  admin: Joi.string().required(),
-  user_Bdate: Joi.date(),
+  role: Joi.string().required(),
+  // user_Bdate: Joi.date(),
 });
 
 exports.validateRegister = validate(reqisterSchema);
+
+const loginSchema = Joi.object({
+  emailOrMobile: Joi.string().required(),
+  password: Joi.string().required(),
+});
+
+exports.validateLogin = validate(loginSchema);

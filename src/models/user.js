@@ -16,6 +16,13 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      mobile: {
+        type: DataTypes.STRING,
+        unique: true,
+        validate: {
+          is: /^[0-9]{10}$/,
+        },
+      },
       user_gender: {
         type: DataTypes.ENUM("MALE", "FEMALE"),
       },

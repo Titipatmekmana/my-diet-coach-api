@@ -2,10 +2,12 @@ const Joi = require("joi");
 const validate = require("./validate");
 
 const reqisterSchema = Joi.object({
-  firstName: Joi.string().trim().required().messages({
+  user_firstname: Joi.string().trim().required().messages({
+    "any.required": "first name is required",
     "string.empty": "first name is required",
+    "string.empty": "first name must be a string",
   }),
-  lastName: Joi.string().trim().required().messages({
+  user_lastname: Joi.string().trim().required().messages({
     "string.empty": "last nemar is required",
   }),
   emailOrMobile: Joi.alternatives()
@@ -15,7 +17,8 @@ const reqisterSchema = Joi.object({
     )
     .messages({
       "alternatives.match": "must be valid email address or mobile number",
-    }),
+    })
+    .strip(),
   password: Joi.string().alphanum().min(6).required().trim().messages({
     "string.empty": "password is required",
     "string.alphanum": "password must contain number or alphabet",
@@ -28,8 +31,18 @@ const reqisterSchema = Joi.object({
     .messages({
       "any.only": "password and confirm password did not match",
       "string.empty": "confirm password is required",
-    }),
+    })
+    .strip(),
+  email: Joi.forbidden().when("emailOrMobile", {
+    is: Joi.string().email({ tlds: false }),
+    then: Joi.string().default(Joi.ref("emailOrMobile")),
+  }),
+  mobile: Joi.forbidden().when("emailOrMobile", {
+    is: Joi.string().pattern(/^[0-9]{10}$/),
+    then: Joi.string().default(Joi.ref("emailOrMobile")),
+  }),
   admin: Joi.string().required(),
+  user_Bdate: Joi.date(),
 });
 
 exports.validateRegister = validate(reqisterSchema);

@@ -6,7 +6,7 @@ const {
 const { Op } = require("sequelize");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { User } = require("../models");
+const { User, ProfileUser } = require("../models");
 const createError = require("../utils/create-error");
 
 exports.register = async (req, res, next) => {
@@ -62,6 +62,49 @@ exports.login = async (req, res, next) => {
     });
 
     res.status(200).json({ accessToken });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.userProfile = async (req, res, next) => {
+  try {
+    const value = {
+      userId: req.user.id,
+      weight: req.body.weight,
+      height: req.body.height,
+    };
+    let createProflie;
+
+    const check = await ProfileUser.findOne({
+      where: {
+        userId: req.user.id,
+      },
+    });
+    if (check) {
+      createProflie = await ProfileUser.update(value, {
+        where: {
+          id: req.user.id,
+        },
+      });
+    } else {
+      createProflie = await ProfileUser.create(value);
+    }
+
+    console.log(req.body);
+
+    const update = {
+      user_gender: req.body.user_gender,
+      user_bdate: req.body.user_bdate,
+    };
+
+    const updateProfile = await User.update(update, {
+      where: {
+        id: req.user.id,
+      },
+    });
+
+    res.status(201).json({ createProflie, updateProfile });
   } catch (err) {
     next(err);
   }

@@ -7,39 +7,39 @@ module.exports = (sequelize, DataTypes) => {
     {
       loseWeight: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       gainWeight: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       nuttrtionForUser: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       calories: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       carbs: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       fat: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       protein: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       weight: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       height: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
     },
     {

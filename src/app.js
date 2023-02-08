@@ -25,7 +25,7 @@ app.use(
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
-// sequelize.sync({ force: true });
+// sequelize.sync({ alter: true });
 app.use("/auth", authRoute);
 
 // app.use('/login',rateLimit({

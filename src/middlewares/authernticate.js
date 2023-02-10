@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const createError = require("../utils/create-error");
-const { User } = require("../models");
+const { User, ProfileUser } = require("../models");
 
 module.exports = async (req, res, next) => {
   try {
@@ -15,6 +15,9 @@ module.exports = async (req, res, next) => {
       where: { id: payload.id },
       attributes: {
         exclude: ["password"],
+      },
+      include: {
+        model: ProfileUser,
       },
     });
     if (!user) {

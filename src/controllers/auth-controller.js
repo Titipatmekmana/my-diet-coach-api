@@ -46,6 +46,7 @@ exports.login = async (req, res, next) => {
           { mobile: value.emailOrMobile },
         ],
       },
+      include: { model: ProfileUser },
     });
 
     if (!user) {
@@ -61,10 +62,14 @@ exports.login = async (req, res, next) => {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
 
-    res.status(200).json({ accessToken });
+    res.status(200).json({ accessToken, user });
   } catch (err) {
     next(err);
   }
+};
+
+exports.getMe = (req, res, next) => {
+  res.status(200).json({ user: req.user });
 };
 
 exports.userProfile = async (req, res, next) => {
@@ -95,7 +100,7 @@ exports.userProfile = async (req, res, next) => {
 
     const update = {
       user_gender: req.body.user_gender,
-      user_bdate: req.body.user_bdate,
+      user_Bdate: req.body.user_bdate,
     };
 
     const updateProfile = await User.update(update, {

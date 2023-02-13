@@ -7,30 +7,30 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: {
         type: DataTypes.STRING,
-        allowNull: false,
+        // allowNull: false,
         validate: {
           notEmpty: true,
         },
       },
       Group: {
         type: DataTypes.STRING,
-        allowNull: false,
+        // allowNull: false,
       },
       calories: {
         type: DataTypes.STRING,
-        allowNull: false,
+        // allowNull: false,
       },
       carbs: {
         type: DataTypes.STRING,
-        allowNull: false,
+        // allowNull: false,
       },
       fat: {
         type: DataTypes.STRING,
-        allowNull: false,
+        // allowNull: false,
       },
       protein: {
         type: DataTypes.STRING,
-        allowNull: false,
+        // allowNull: false,
       },
     },
     {
@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
     Food.hasMany(db.UserFood, {
       foreignKey: {
         name: "foodId",
-        allowNull: false,
+        // allowNull: false,
       },
       onDelete: "RESTRICT",
     });

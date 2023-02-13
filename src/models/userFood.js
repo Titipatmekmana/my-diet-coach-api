@@ -7,18 +7,17 @@ module.exports = (sequelize, DataTypes) => {
     {
       serving: {
         type: DataTypes.STRING,
-        unique: true,
       },
       dailyMeal: {
         type: DataTypes.STRING,
-        allowNull: false,
+        // allowNull: false,
         validate: {
           notEmpty: true,
         },
       },
       date: {
         type: DataTypes.STRING,
-        allowNull: false,
+        // allowNull: false,
       },
     },
     {
@@ -30,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     UserFood.belongsTo(db.ProfileUser, {
       foreignKey: {
         name: "profileUserId",
-        allowNull: false,
+        // allowNull: false,
       },
       onDelete: "RESTRICT",
     });
@@ -38,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
     UserFood.belongsTo(db.Food, {
       foreignKey: {
         name: "foodId",
-        allowNull: false,
+        // allowNull: false,
       },
       onDelete: "RESTRICT",
     });

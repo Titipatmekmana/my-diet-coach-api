@@ -31,7 +31,6 @@ module.exports = (sequelize, DataTypes) => {
         name: "profileUserId",
         // allowNull: false,
       },
-      onDelete: "RESTRICT",
     });
 
     UserFood.belongsTo(db.Food, {
@@ -39,7 +38,6 @@ module.exports = (sequelize, DataTypes) => {
         name: "foodId",
         // allowNull: false,
       },
-      onDelete: "RESTRICT",
     });
   };
 

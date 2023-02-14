@@ -1,4 +1,6 @@
 const { Op } = require("sequelize");
+const { where } = require("sequelize");
+const sequelize = require("sequelize");
 const { Food, UserFood } = require("../models");
 
 exports.food = async (req, res, next) => {
@@ -14,32 +16,78 @@ exports.food = async (req, res, next) => {
 };
 
 exports.foodDate = async (req, res, next) => {
-  // console.log(req.body);
-  const { Foodid, Name, Calories, Carbohydrate, Fat, Protein } = req.body;
-  console.log(Foodid);
+  console.log(req.body);
+  const { foodId, Name, Calories, Carbohydrate, Fat, Protein } = req.body;
 
+  // console.log(FoodId);
   const FoodResult = await Food.findOne({
     where: {
-      id: Foodid,
+      id: foodId,
     },
   });
 
-  // const foodData = {
-  //   profileUserId: req.user.id,
-  //   foodId: Foodid,
-  //   // serving: req.body.serving,
-  //   // date: req.body.date,
-  //   // dailyMeal: req.body.dailyMeal,
-  // };
-  // const check = await profileUserId.findOne({
-  //   where: {
-  //     userId: req.user.id,
-  //   },
-  // });
+  console.log(FoodResult);
+  const userId = req.user.id;
 
-  // createId = await UserFood.create(foodData);
+  const value = {
+    foodId: foodId,
+    profileUserId: userId,
+    dailyMeal: "อาหารเช้า",
+  };
+  // console.log(value);
+  const result = await UserFood.create(value);
   res.status(201).json(FoodResult);
-  // console.log(req.body);
-  // console.log(req.user);
-  // res.json(555);
 };
+
+exports.getUserFoodTotals = async (req, res, next) => {
+  console.log(req.user.id);
+  try {
+    const results = await UserFood.findAll({
+      where: {
+        profileUserId: req.user.id,
+      },
+      attributes: [
+        "profileUserId",
+        [sequelize.fn("sum", sequelize.col("calories")), "totalCalories"],
+      ],
+      group: "profileUserId",
+      include: {
+        model: Food,
+        attributes: [],
+      },
+    });
+    console.log(results);
+    res.status(201).json(results);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.deleFoodList = async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const delefood = await UserFood.destroy({
+      where: {
+        id: id,
+      },
+    });
+    res.status(200).json(delefood);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// exports.deleteItem = async (req, res, next) => {
+//   try {
+//     // console.log(req.params);
+//     const { shopId, itemId } = req.params;
+//     // console.log(itemId, shopId);
+//     const item = await Product.findOne({ where: { id: itemId } });
+//     // verifily User? in front or back?
+//     await item.destroy();
+//     res.status(200).json();
+//   } catch (err) {
+//     next(err);
+//   }
+// };

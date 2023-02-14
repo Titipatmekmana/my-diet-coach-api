@@ -50,25 +50,20 @@ module.exports = (sequelize, DataTypes) => {
     ProfileUser.belongsTo(db.User, {
       foreignKey: {
         name: "userId",
-        allowNull: false,
       },
-      onDelete: "RESTRICT",
     });
 
     ProfileUser.hasMany(db.UserDaily, {
       foreignKey: {
         name: "userDailyId",
-        allowNull: false,
       },
-      onDelete: "RESTRICT",
     });
 
     ProfileUser.hasMany(db.UserFood, {
       foreignKey: {
         name: "profileUserId",
-        allowNull: false,
       },
-      onDelete: "RESTRICT",
+      onDelete: "CASCADE",
     });
   };
 

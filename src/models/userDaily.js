@@ -35,9 +35,7 @@ module.exports = (sequelize, DataTypes) => {
     UserDaily.belongsTo(db.ProfileUser, {
       foreignKey: {
         name: "profileUserId",
-        allowNull: false,
       },
-      onDelete: "RESTRICT",
     });
   };
 

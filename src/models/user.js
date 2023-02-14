@@ -56,9 +56,7 @@ module.exports = (sequelize, DataTypes) => {
     User.hasOne(db.ProfileUser, {
       foreignKey: {
         name: "userId",
-        allowNull: false,
       },
-      onDelete: "RESTRICT",
     });
   };
 

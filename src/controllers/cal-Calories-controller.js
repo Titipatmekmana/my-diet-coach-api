@@ -28,7 +28,6 @@ exports.calBmr = async (req, res, next) => {
   } else if (user_gender === "FEMALE") {
     result = 665 + 9.6 * weight + 1.8 * height - 4.7 * cal;
   }
-  //   Math.floor(result);
   console.log(result);
   res.status(201).json({ result, p });
 };

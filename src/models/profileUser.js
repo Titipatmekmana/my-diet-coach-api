@@ -63,7 +63,12 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: {
         name: "profileUserId",
       },
-      onDelete: "CASCADE",
+    });
+
+    ProfileUser.hasMany(db.Workout, {
+      foreignKey: {
+        name: "profileUserId",
+      },
     });
   };
 

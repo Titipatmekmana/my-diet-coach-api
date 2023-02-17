@@ -6,7 +6,7 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 
-// const { sequelize, UserFood } = require("./models");
+// const { sequelize } = require("./models");
 const foodRoute = require("./routes/food-route");
 const authRoute = require("./routes/auth-route");
 const notFoundMiddleware = require("./middlewares/not-found");
@@ -16,17 +16,17 @@ const calRoute = require("./routes/cal-route");
 const app = express();
 
 app.use(morgan("dev"));
-app.use(
-  rateLimit({
-    windowMs: 1000 * 60 * 15,
-    max: 100,
-    message: { message: "too many requests,please try again later" },
-  })
-);
+// app.use(
+//   rateLimit({
+//     windowMs: 1000 * 60 * 15,
+//     max: 100,
+//     message: { message: "too many requests,please try again later" },
+//   })
+// );
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
-// sequelize.sync({ alter: true });
+// sequelize.sync({ force: true });
 app.use("/auth", authRoute);
 app.use("/food", foodRoute);
 app.use("/cal", calRoute);

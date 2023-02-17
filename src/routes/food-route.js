@@ -14,5 +14,7 @@ router.get(
   foodController.getUserFoodTotals
 );
 
+router.get("/getDatliyMeal", authernticate, foodController.getDatliyMeal);
+
 router.delete("/:id", authernticate, foodController.deleFoodList);
 module.exports = router;

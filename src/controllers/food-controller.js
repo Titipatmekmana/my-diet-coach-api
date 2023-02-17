@@ -11,13 +11,14 @@ exports.food = async (req, res, next) => {
       where: { name: { [Op.like]: `%${name}%` } },
     });
     console.log(foodlist);
-    res.status(201).json(foodlist);
+    res.status(200).json(foodlist);
   } catch (err) {}
 };
 
 exports.foodDate = async (req, res, next) => {
   console.log(req.body);
-  const { foodId, Name, Calories, Carbohydrate, Fat, Protein } = req.body;
+  const { foodId, Name, Calories, Carbohydrate, Fat, Protein, dailyMeal } =
+    req.body;
 
   // console.log(FoodId);
   const FoodResult = await Food.findOne({
@@ -32,11 +33,27 @@ exports.foodDate = async (req, res, next) => {
   const value = {
     foodId: foodId,
     profileUserId: userId,
-    dailyMeal: "อาหารเช้า",
+    dailyMeal,
   };
   // console.log(value);
   const result = await UserFood.create(value);
   res.status(201).json(FoodResult);
+};
+
+exports.getDatliyMeal = async (req, res, next) => {
+  try {
+    const results = await UserFood.findAll({
+      where: {
+        profileUserId: req.user.id,
+      },
+      include: {
+        model: Food,
+      },
+    });
+    res.status(200).json(results);
+  } catch (error) {
+    next(error);
+  }
 };
 
 exports.getUserFoodTotals = async (req, res, next) => {
@@ -65,14 +82,31 @@ exports.getUserFoodTotals = async (req, res, next) => {
 
 exports.deleFoodList = async (req, res, next) => {
   const { id } = req.params;
-
+  console.log("delete shit");
   try {
     const delefood = await UserFood.destroy({
       where: {
-        id: id,
+        foodId: id,
+        profileUserId: req.user.id,
       },
     });
-    res.status(200).json(delefood);
+
+    const results = await UserFood.findAll({
+      where: {
+        profileUserId: req.user.id,
+      },
+      attributes: [
+        "profileUserId",
+        [sequelize.fn("sum", sequelize.col("calories")), "totalCalories"],
+      ],
+      group: "profileUserId",
+      include: {
+        model: Food,
+        attributes: [],
+      },
+    });
+    console.log(results);
+    res.status(201).json(results);
   } catch (error) {
     next(error);
   }

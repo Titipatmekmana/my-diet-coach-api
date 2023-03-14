@@ -1,7 +1,7 @@
 const { Op } = require("sequelize");
 const { where } = require("sequelize");
 const sequelize = require("sequelize");
-const { Food, UserFood } = require("../models");
+const { Food, UserFood, ProfileUser } = require("../models");
 
 exports.food = async (req, res, next) => {
   const name = req.query.name;
@@ -16,10 +16,9 @@ exports.food = async (req, res, next) => {
 };
 
 exports.foodDate = async (req, res, next) => {
-  console.log(req.body);
+  console.log(req, "bodyReq");
   const { foodId, Name, Calories, Carbohydrate, Fat, Protein, dailyMeal } =
     req.body;
-
   // console.log(FoodId);
   const FoodResult = await Food.findOne({
     where: {
@@ -27,24 +26,36 @@ exports.foodDate = async (req, res, next) => {
     },
   });
 
-  console.log(FoodResult);
   const userId = req.user.id;
+  const profile = await ProfileUser.findOne({
+    where: {
+      userId: userId,
+    },
+  });
+
+  console.log(FoodResult);
 
   const value = {
     foodId: foodId,
-    profileUserId: userId,
+    profileUserId: profile.id,
     dailyMeal,
   };
-  // console.log(value);
-  const result = await UserFood.create(value);
-  res.status(201).json(FoodResult);
+  console.log(value);
+  const userFoodData = await UserFood.create(value);
+  res.status(201).json({ FoodResult, userFoodData });
 };
 
 exports.getDatliyMeal = async (req, res, next) => {
   try {
+    const userId = req.user.id;
+    const profile = await ProfileUser.findOne({
+      where: {
+        userId: userId,
+      },
+    });
     const results = await UserFood.findAll({
       where: {
-        profileUserId: req.user.id,
+        profileUserId: profile.id,
       },
       include: {
         model: Food,
@@ -59,9 +70,15 @@ exports.getDatliyMeal = async (req, res, next) => {
 exports.getUserFoodTotals = async (req, res, next) => {
   console.log(req.user.id);
   try {
+    const userId = req.user.id;
+    const profile = await ProfileUser.findOne({
+      where: {
+        userId: userId,
+      },
+    });
     const results = await UserFood.findAll({
       where: {
-        profileUserId: req.user.id,
+        profileUserId: profile.id,
       },
       attributes: [
         "profileUserId",
@@ -75,6 +92,20 @@ exports.getUserFoodTotals = async (req, res, next) => {
     });
     console.log(results);
     res.status(201).json(results);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getUserFood = async (req, res, next) => {
+  try {
+    const { foodId } = req.params;
+    const userFood = await UserFood.findOne({
+      where: {
+        foodId: foodId,
+      },
+    });
+    res.status(200).json(userFood);
   } catch (error) {
     next(error);
   }
@@ -82,18 +113,28 @@ exports.getUserFoodTotals = async (req, res, next) => {
 
 exports.deleFoodList = async (req, res, next) => {
   const { id } = req.params;
-  console.log("delete shit");
   try {
-    const delefood = await UserFood.destroy({
+    const userId = req.user.id;
+    const profile = await ProfileUser.findOne({
+      where: {
+        userId: userId,
+      },
+    });
+    console.log(id, profile.id, "deleteFood");
+    const fi = await UserFood.findOne({
       where: {
         foodId: id,
-        profileUserId: req.user.id,
+      },
+    });
+    const del = await UserFood.destroy({
+      where: {
+        id: id,
       },
     });
 
     const results = await UserFood.findAll({
       where: {
-        profileUserId: req.user.id,
+        profileUserId: profile.id,
       },
       attributes: [
         "profileUserId",
@@ -111,17 +152,3 @@ exports.deleFoodList = async (req, res, next) => {
     next(error);
   }
 };
-
-// exports.deleteItem = async (req, res, next) => {
-//   try {
-//     // console.log(req.params);
-//     const { shopId, itemId } = req.params;
-//     // console.log(itemId, shopId);
-//     const item = await Product.findOne({ where: { id: itemId } });
-//     // verifily User? in front or back?
-//     await item.destroy();
-//     res.status(200).json();
-//   } catch (err) {
-//     next(err);
-//   }
-// };

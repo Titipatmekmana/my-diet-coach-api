@@ -21,9 +21,10 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Workout.associate = (db) => {
-    Workout.belongsTo(db.ProfileUser, {
+    Workout.hasMany(db.UserWorkout, {
       foreignKey: {
-        name: "profileUserId",
+        name: "workoutId",
+        // allowNull: false,
       },
     });
   };

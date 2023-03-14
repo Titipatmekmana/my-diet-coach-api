@@ -65,7 +65,7 @@ module.exports = (sequelize, DataTypes) => {
       },
     });
 
-    ProfileUser.hasMany(db.Workout, {
+    ProfileUser.hasMany(db.UserWorkout, {
       foreignKey: {
         name: "profileUserId",
       },
